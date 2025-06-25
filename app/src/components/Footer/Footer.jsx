@@ -1,31 +1,49 @@
 import React from 'react'
-import classNames from 'classnames'
-import './footer-custom.css'
 
 const Footer = () => {
-  
-  const style = (listStyle) => {
-    return classNames (
-      {"w-[35px] h-[35px] rounded-full bg-[#F5FF82] flex": listStyle},
-    )
-  }
-
   return (
-      <footer className="footer-custom">
-          <p id="copyright">© CherryOnTech Venus Voyagers | All Rights Reserved.</p>
-          <section id="footerlinks">
-            <a href="https://www.linkedin.com/company/cherry-on-tech/posts/?feedView=all">
-              <li className ={style("listStyle")}><img src="/LinkedIn-Icon-PH.svg" alt="LinkedIn Logo, link to Cherry on Tech's LinkedIn" /></li>
+    <footer className="bg-gray-900 text-white py-8">
+      <div className="container flex flex-col items-center justify-between px-4 mx-auto md:flex-row">
+        <p className="mb-4 text-gray-400 text-center md:text-left md:mb-0">
+          © CherryOnTech Venus Voyagers | All Rights Reserved.
+        </p>
+        
+        <div className="flex space-x-4">
+          {[
+            {
+              href: "https://www.linkedin.com/company/cherry-on-tech/posts/?feedView=all",
+              icon: "/LinkedIn-Icon-PH.svg",
+              alt: "LinkedIn"
+            },
+            {
+              href: "https://cherryon.tech/",
+              icon: "Cherry-Icon-PH.svg",
+              alt: "Cherry on Tech"
+            },
+            {
+              href: "https://www.youtube.com/@cherryontech",
+              icon: "Youtube-Icon-PH.svg",
+              alt: "YouTube"
+            }
+          ].map((link, index) => (
+            <a 
+              key={index}
+              href={link.href} 
+              className="flex items-center justify-center w-10 h-10 transition-all duration-300 rounded-full bg-primary hover:bg-opacity-80"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img 
+                src={link.icon} 
+                alt={link.alt} 
+                className="w-6 h-6"
+              />
             </a>
-            <a href="https://cherryon.tech/">
-              <li className ={style("listStyle")}><img src="Cherry-Icon-PH.svg" alt="Cherry Logo, link to Cherry on Tech's Website" /></li>
-            </a>
-            <a href="https://www.youtube.com/@cherryontech">
-              <li className ={style("listStyle")}><img src="Youtube-Icon-PH.svg" alt="Youtube Logo, link to Cherry on Tech's Youtube Channel" /></li>
-            </a>
-          </section>
-      </footer>
+          ))}
+        </div>
+      </div>
+    </footer>
   )
 }
 
-export default Footer 
+export default Footer
