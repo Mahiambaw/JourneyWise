@@ -1,28 +1,18 @@
-import React from "react";
-import { useState } from "react";
-import Modal from "../components/Modal/Modal"
-import SecContent from "../components/SecNotice/SecContent"
+import React, { useState } from "react";
+import Modal from "../components/Modal/Modal";
+import SecContent from "../components/SecNotice/SecContent";
 
 const useShowSecNotice = () => {
-  const [isClosed, setIsclosed] = useState(false)
-  const handleClick = () => {
-    setIsclosed(!isClosed)
-  }
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
 
-  const ShowSecNotice = ()=>{
-   return(
-      <>
-      {isClosed && (
-      <Modal onClose={handleClick}>{<SecContent />}</Modal>
-    )}
-      </>
-   )
+  const ShowSecNotice = () => (
+    isOpen && <Modal onClose={handleClose}><SecContent closeModal={handleClose} /></Modal>
+  );
 
-  }
-
-  return [handleClick, ShowSecNotice]
-
-    
-}
+  return [handleOpen, ShowSecNotice];
+};
 
 export default useShowSecNotice;
