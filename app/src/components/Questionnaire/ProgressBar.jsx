@@ -1,18 +1,35 @@
-import React from 'react'
-import './progressBar-custom.css'
+import React from 'react';
 
-const ProgressBar = ({index}) => {
-  const startProgressImage = "/Updated Progress Bar.svg"
-  const continuedProgressImage = "/Updated Progress Bar (1).svg"
-  const mobileStartProgressImage = "/journeywise-progress-bar-mobile-1.svg"
-  const mobileContinuedProgressImage = "/journeywise-progress-bar-mobile-2.svg"
+const ProgressBar = ({ index, total }) => {
+  const desktopImage = index === 0 
+    ? "/Updated Progress Bar.svg" 
+    : "/Updated Progress Bar (1).svg";
+  
+  const mobileImage = index === 0 
+    ? "/journeywise-progress-bar-mobile-1.svg" 
+    : "/journeywise-progress-bar-mobile-2.svg";
 
   return (
-    <div id="progresscontainer" className="progressBar-custom">
-      <img id="desktop" className="" src={index === 0 ? startProgressImage : continuedProgressImage} alt="Progress Bar" /> 
-      <img id="mobile" className="" src={index === 0 ? mobileStartProgressImage : mobileContinuedProgressImage} alt="Progress Bar" />
+    <div className="w-full mb-6 sm:mb-8">
+      {/* Desktop Progress Bar */}
+      <div className="hidden md:block h-14 sm:h-16 relative">
+        <img 
+          src={desktopImage}
+          alt="Progress Bar" 
+          className="w-full h-full object-contain"
+        />
+      </div>
+      
+      {/* Mobile Progress Bar */}
+      <div className="md:hidden h-12 relative">
+        <img 
+          src={mobileImage}
+          alt="Progress Bar" 
+          className="w-full h-full object-contain"
+        />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProgressBar
+export default ProgressBar;

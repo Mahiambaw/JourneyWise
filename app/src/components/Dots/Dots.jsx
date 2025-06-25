@@ -1,24 +1,27 @@
-import React from "react";
+import React from "react"
 
-function Dots({ arch, handleClick, activeIndex,selectedArchetype }) {
-    if(selectedArchetype) {
-        return null;
-    }
-    const handleDotClick = (nextIndex) => {
-        handleClick(nextIndex);
-    };
 
-    return (
-        <div className="flex justify-center mt-[30px]">
-            {arch.map((el, index) => (
-                <button
-                    key={el.id}
-                    className={`mx-1 mb-2 w-3 h-3 rounded-full border-[1px] border-white ${activeIndex === index ? " bg-white":"bg-transparent" } cursor-pointer`}
-                    onClick={() => handleDotClick(index)}
-                ></button>
-            ))}
-        </div>
-    );
+function Dots({ arch, handleClick, activeIndex, selectedArchetype }) {
+  if (selectedArchetype) {
+    return null;
+  }
+
+  return (
+    <div className="flex justify-center mt-8 space-x-3">
+      {arch.map((el, index) => (
+        <button
+          key={el.id}
+          className={`w-4 h-4 rounded-full cursor-pointer transition-all ${
+            activeIndex === index 
+              ? "bg-primary border-2 border-white scale-125" 
+              : "bg-gray-300 border border-gray-400"
+          }`}
+          onClick={() => handleClick(index)}
+          aria-label={`Show ${el.title}`}
+        />
+      ))}
+    </div>
+  );
 }
 
 export default Dots;

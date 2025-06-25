@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Buttons from '../Buttons/Buttons'
-import Options from './Options'
-import ProgressBar from './ProgressBar'
-import { questionData } from '../../Data/questionData'
-import './questionnaire-custom.css'
+import Buttons from '../Buttons/Buttons';
+import Options from './Options';
+import ProgressBar from './ProgressBar';
+import { questionData } from '../../Data/questionData';
 
-
-
-const archeTypeData = {"Attention To Detail": 3,
+const archeTypeData = {
+  "Attention To Detail": 3,
   "Strong Work Ethic": 3,
   "Organized": 2,
   "Reliable": 6,
@@ -18,9 +16,10 @@ const archeTypeData = {"Attention To Detail": 3,
   "Autonomy": 4,
   "Time Management": 4,
   "Initiative": 3
+};
 
-  }
-  const softSkillsData = {"Adaptability": 3,
+const softSkillsData = {
+  "Adaptability": 3,
   "Passionate": 3,
   "Empathy": 6,
   "Emotional Intelligence": 4,
@@ -36,91 +35,97 @@ const archeTypeData = {"Attention To Detail": 3,
   "Critical Thinking": 4,
   "Decision-Making": 1,
   "Delegation": 1,
-  "Creativity": 3}
+  "Creativity": 3
+};
 
-const Questionnaire = ({index, setIndex, arch, setArch}) => {
-  const [questions , setQuestions] = useState( questionData )
+const Questionnaire = ({ index, setIndex, arch, setArch }) => {
+  const [questions] = useState(questionData);
   const [selected, setSelected] = useState(null);
-  const [selectedId , setSelectedId ]= useState(null)
-  const [count, setCount] = useState({})
-  const [arcTypeCount , setArcTypeCount]= useState({})
-  const navigate = useNavigate()
+  const [selectedId, setSelectedId] = useState(null);
+  const [count, setCount] = useState({});
+  const [arcTypeCount, setArcTypeCount] = useState({});
+  const navigate = useNavigate();
 
-  
   useEffect(() => {
     if (selected !== null) {
       const selectedOption = questions.questions[index].options[selected];
-      const newSoftSkillCount = { };
-      const newArchTypeCount = {skills:{}}
+      const newSoftSkillCount = {};
+      const newArchTypeCount = { skills: {} };
       
-      selectedOption.softSkills.forEach((skill, i) => {
-        if( index === 0){
-
-         newArchTypeCount.skills[skill]= archeTypeData[skill] 
-         newArchTypeCount["archeType"]=questions.questions[index].options[selected].answer
-         newArchTypeCount["id"] = questions.questions[index].options[selected].id;
-        }else{
-          
-          newSoftSkillCount[skill] = softSkillsData[skill] + 1;
-
+      selectedOption.softSkills.forEach((skill) => {
+        if (index === 0) {
+          newArchTypeCount.skills[skill] = archeTypeData[skill];
+          newArchTypeCount["archeType"] = questions.questions[index].options[selected].answer;
+          newArchTypeCount["id"] = questions.questions[index].options[selected].id;
+        } else {
+          newSoftSkillCount[skill] = (softSkillsData[skill] || 0) + 1;
         }
-       
       });
+      
       if (index === 0) {
-        setArcTypeCount(newArchTypeCount,
-        );
-        setArch(newArchTypeCount)
+        setArcTypeCount(newArchTypeCount);
+        setArch(newArchTypeCount);
       }
-  
+      
       setCount(prevCount => ({
         ...prevCount,
         ...newSoftSkillCount,
       }));
-      
     }
-    
-  }, [selected, index]);
+  }, [selected, index, questions, setArch]);
 
-  
-  const numberQuestion = index + 1 
+  const numberQuestion = index + 1;
 
   const handleNext = () => {
     if (index < questions.questions.length - 1) {
       setIndex(index + 1);
-      setSelected(null)
-      setSelectedId(null)
-    }else{
-    navigate("/result", {state:{count,arcTypeCount}})
-
+      setSelected(null);
+      setSelectedId(null);
+    } else {
+      navigate("/result", { state: { count, arcTypeCount } });
     }
-  }
-  // const handleBack = ()=>{
-  //   if (index > 0 ) {
-  //     setIndex(index -1);
-  //   }
-  // }
+  };
 
-  const handleSelected = (i, id)=>{
-    setSelected(i)
-    setSelectedId(id)
-  } 
+  const handleSelected = (i, id) => {
+    setSelected(i);
+    setSelectedId(id);
+  };
 
-  return (
-    <div id="quizdiv" className="questionnaire-custom">
-      <ProgressBar index={index} />
-      <div id="quizheader" >
-      <header>
-        <p id="questionnumber">QUESTION { numberQuestion}/{questions.questions.length}</p>
-        <h3>{(questions.questions[index].question)}</h3>
-      </header>
+    return (
+  <div className="flex flex-col w-full h-full">
+    <ProgressBar index={index} total={questions.questions.length} />
+    
+    <div className="flex-grow overflow-y-auto mb-4">
+      <div className="my-6">
+        <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">
+          QUESTION {numberQuestion}/{questions.questions.length}
+        </p>
+        <h3 className="mt-2 text-xl font-bold text-gray-800 md:text-2xl">
+          {questions.questions[index].question}
+        </h3>
       </div>
-      <Options answerChoices={questions.questions[index].options} handleSelected = {handleSelected} selectedId={selectedId} />
-      <div id="backnext">
-        {/* <Buttons id="back" onClick = {handleBack}primary rounded  alternate={index === 0} >BACK</Buttons> */}
-        <Buttons id="next" onClick = {handleNext} alternate = {selectedId === null} primary = {selectedId !=null} rounded disabled={selectedId === null} >NEXT</Buttons>
+      
+      <Options 
+        answerChoices={questions.questions[index].options} 
+        handleSelected={handleSelected} 
+        selectedId={selectedId} 
+      />
+      </div>
+      
+      <div className="mt-auto pt-4">
+        <Buttons 
+          onClick={handleNext} 
+          alternate={selectedId === null} 
+          primary={selectedId !== null} 
+          rounded 
+          disabled={selectedId === null}
+          className={`w-full py-3 ${selectedId !== null ? 'bg-primary' : 'bg-gray-300'}`}
+        >
+          {index < questions.questions.length - 1 ? 'NEXT' : 'SEE RESULTS'}
+        </Buttons>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Questionnaire
