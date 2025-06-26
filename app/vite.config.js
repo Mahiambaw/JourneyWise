@@ -5,8 +5,7 @@ export default defineConfig({
     rollupOptions: {
       external: [
         'emailjs-com',
-        
-        'jspdf',
+        // 'jspdf', ← ❌ REMOVE THIS
       ],
     },
   },
