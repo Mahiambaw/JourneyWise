@@ -32,35 +32,36 @@ const SoftSkills = () => {
         "Creativity": "You think outside the box, bringing unique and innovative ideas to the table that spark inspiration and lead to extraordinary results."
       }
 
-    return (
+   return (
+    <section className="py-12">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-8">
+          <h3 className="text-2xl md:text-3xl font-normal">Soft Skills Assessment</h3>
+          <h4 className="text-lg md:text-xl mt-2">Your Unique And Amazing Skills Set</h4>
+        </div>
         
-        <section id="softskillscontainer" className="softSkills-custom">
-            <div id="skillsheading">
-                <h3>Soft Skills Assesment</h3>
-                <h4>Your Unique And Amazing Skills Set</h4>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {topSkills.map((skill, i) => (
+            <div 
+              key={i}
+             className={`rounded-xl p-6 text-center ${
+             i === 0 || i === 3
+             ? "bg-[#F5FF82] shadow-[0_8px_30px_rgba(0,0,0,0.2)]"
+             : i === 1 || i === 4
+             ? "bg-[#2C2B2B] text-white shadow-[0_8px_30px_rgba(0,0,0,0.3)]"
+             : "bg-white shadow-[0_8px_30px_rgba(0,0,0,0.25)]"
+}`}
+
+            >
+              <h4 className="text-xl font-bold mb-3">{skill[0]}</h4>
+              <p className="text-base">{skillsText[skill[0]]}</p>
             </div>
-            <div id="softskillscards">
-                {topSkills.map((skill, i)=>(
-                    <figure id="individualcards"  key = {i} className = {`shadow-[9px_9px_12px_0_rgba(0,0,0,0.15)] ${i=== 0 && "bg-[#F5FF82]"} 
-                     ${i===1 && "bg-[#2C2B2B] text-white"}   ${i===2 && "bg-white"}  ${i===3 && "bg-[#F5FF82]"} 
-                     ${i===4 && "bg-[#2C2B2B] text-white"}   ${i===5 && "bg-white"} ` }>
-                    <div id="cardtext">
-                        <h4>{skill[0]}</h4>
-                        <p className = "text-center"> 
-                      {  skillsText[skill[0]]}
-                        </p>
-                    </div>
-                    
-                </figure>
-
-                ))
-
-                
-                  }
-                     </div>
-
-        </section>
-    )
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
+
 
 export default SoftSkills
